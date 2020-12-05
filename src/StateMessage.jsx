@@ -1,18 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
 
-class StateMessage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {message: 'starting...'};
-  }
+const StateMessage = (props) => {
 
-  render() {
-    return (
-      <div>
-        {this.state.message}
-      </div>
-    );
-  }
+  const StateMessageText = styled.div`
+    text-align: center;
+    padding: .5rem;
+  `;
+  return (
+    <StateMessageText>
+      {props.message}
+    </StateMessageText>
+  );
 };
 
 export default StateMessage;

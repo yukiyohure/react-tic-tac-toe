@@ -1,31 +1,41 @@
 import React from 'react';
+import styled from 'styled-components';
 
-class Table extends React.Component {
-  render() {
-    return (
-      <div>
-        <table>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>5</td>
-              <td>6</td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>8</td>
-              <td>9</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    );
-  };
+const Table = () => {
+  const TableBackground = styled.table`
+    background: #000;
+  `;
+
+  const TableCell = styled.td`
+    background: #fff;
+    padding: 1px;
+    width: 3rem;
+    height: 3rem;
+  `;
+
+  return (
+    <div>
+      <TableBackground>
+        <tbody>
+          <tr>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </tr>
+          <tr>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </tr>
+          <tr>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+          </tr>
+        </tbody>
+      </TableBackground>
+    </div>
+  );
 };
 
 
