@@ -1,5 +1,6 @@
 {
   "name": "react-tic-tac-toe",
+  "homepage": "https://yukiyohure.github.io/react-tic-tac-toe",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,7 +20,6 @@
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build",
-    "homepage": "https://yukiyohure.github.io/react-tic-tac-toe"
   },
   "eslintConfig": {
     "extends": [
