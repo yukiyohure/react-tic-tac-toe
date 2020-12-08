@@ -17,10 +17,10 @@ const Button = styled.button`
   }
 `;
 
-const RestartButton = () => {
+const RestartButton = (props) => {
   return (
     <div>
-      <Button>Restart</Button>
+      <Button onClick={props.onClick}>Restart</Button>
     </div>
   );
 };

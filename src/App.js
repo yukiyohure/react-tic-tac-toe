@@ -26,6 +26,7 @@ class App extends React.Component {
       isCircleTurn: true,
       cells: new Array(9).fill(''), // 空文字判定関数のisEmptyStringのために空文字で埋めておく
       turnCount: 0,
+      isGameContinued: true,
     };
     this.circle = '○';
     this.cross = '×';
@@ -42,19 +43,46 @@ class App extends React.Component {
       [0, 4, 8],
       [2, 4, 6]
     ];
+    this.maxTurn = 8;
+    // thisをconstructorで束縛する。
+    // onClickで呼び出すときにarrow関数を使って束縛することもできるが、
+    // 子コンポーネントに渡す関数の場合、子コンポーネントも無駄に再描画されてしまう。
+    this.handleCellClick = this.handleCellClick.bind(this);
+    this.handleRestartButtonClick = this.handleRestartButtonClick.bind(this);
   };
 
+  // リスタート処理
+  handleRestartButtonClick = () => {
+    this.setState({
+      turnCount: 0,
+      cells: new Array(9).fill(''),
+      stateMessage: 'starting...',
+      isGameContinued: true,
+      isCircleTurn: true,
+    });
+  }
+
   // arrow functionにすることでthisを固定
-  handleClick = (e) => {
+  handleCellClick = (e) => {
     const indexOfCell = e.currentTarget.dataset.cell;
-    // セルの中身が空の場合のみ処理を進める = 一度markが入ったセルはクリックできないようにする
-    if (this.isEmptyString(this.state.cells[indexOfCell])) {
+    // セルの中身が空の場合 & ゲームが終了していない場合に処理を進める
+    // つまり、 一度markが入ったセルはクリックできないようにする & ゲームが終わったらクリックできないようにする
+    if ( this.isEmptyString(this.state.cells[indexOfCell]) && this.state.isGameContinued ) {
       this.insertMark(indexOfCell);
       this.toggleTurn();
-      this.checkWin();
+      this.calculateWinner();
       this.countTurn();
+      this.checkDraw();
     };
   };
+
+  checkDraw = () => {
+    if (this.state.turnCount === this.maxTurn) {
+      this.setState({
+        stateMessage: 'draw',
+      });
+    }
+  }
 
   // 経過ターン数をカウント(引き分けを判定するための材料になる)
   countTurn = () => {
@@ -90,21 +118,20 @@ class App extends React.Component {
   }
 
   // 勝者を判定
-  checkWin = () => {
+  calculateWinner = () => {
     const cellsCopy = this.state.cells;
     const player = this.state.isCircleTurn ? this.circle : this.cross;
 
-    const judge = this.winnigPerttern.some((pattern) => {
+    const hasWon = this.winnigPerttern.some((pattern) => {
       const [first, second, third] = pattern;
-      const firstMark = cellsCopy[first];
-      const secondMark = cellsCopy[second];
-      const thirdMark = cellsCopy[third];
-      return firstMark && firstMark === secondMark && firstMark === thirdMark;
+      return cellsCopy[first] && cellsCopy[first] === cellsCopy[second] && cellsCopy[first] === cellsCopy[third];
     });
 
-    if (judge) {
+    // 勝者が決まった場合
+    if (hasWon) {
       this.setState({
-        stateMessage: `${player} win!`
+        stateMessage: `${player} win!`,
+        isGameContinued: false,
       });
     }
   }
@@ -120,11 +147,11 @@ class App extends React.Component {
               </header>
               <main>
                 <Display isCircle={this.state.isCircleTurn} />
-                <Table onClick={this.handleClick} cells={this.state.cells} />
+                <Table onClick={this.handleCellClick} cells={this.state.cells} />
               </main>
               <Footer>
                 <StateMessage message={this.state.stateMessage} />
-                <RestartButton />
+                <RestartButton onClick={this.handleRestartButtonClick} />
               </Footer>
             </div>
           </Wrapper>
