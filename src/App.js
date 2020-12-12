@@ -63,13 +63,14 @@ class App extends React.Component {
   handleCellClick = (indexOfCell) => {
     // セルの中身が空の場合 & ゲームが終了していない場合に処理を進める
     // つまり、 一度markが入ったセルはクリックできないようにする & ゲームが終わったらクリックできないようにする
-    if ( this.isEmptyString(this.state.cells[indexOfCell]) && this.state.isGameContinued ) {
-      this.insertMark(indexOfCell);
-      this.toggleTurn();
-      this.calculateWinner();
-      this.countTurn();
-      this.checkDraw();
-    };
+    if (this.state.cells[indexOfCell] || !this.state.isGameContinued) {
+      return;
+    }
+    this.insertMark(indexOfCell);
+    this.toggleTurn();
+    this.calculateWinner();
+    this.countTurn();
+    this.checkDraw();
   };
 
   checkDraw = () => {
@@ -107,11 +108,6 @@ class App extends React.Component {
       cells: cellsCopy
     });
   };
-
-  // 引数の文字列が空文字かの判定
-  isEmptyString = (string) => {
-    return typeof string === 'string' && string.length === 0;
-  }
 
   // 勝者を判定
   calculateWinner = () => {
