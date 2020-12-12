@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Table = (props) => {
-  const TableBackground = styled.table`
+const TableBackground = styled.table`
     background: #000;
   `;
 
-  const TableCell = styled.td`
+const TableCell = styled.td`
     background: #fff;
     padding: 1px;
     width: 3rem;
@@ -16,6 +15,7 @@ const Table = (props) => {
     font-size: 1.5rem;
   `;
 
+const Table = (props) => {
   return (
     <div>
       <TableBackground>
