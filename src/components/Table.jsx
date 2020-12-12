@@ -15,27 +15,24 @@ const TableCell = styled.td`
     font-size: 1.5rem;
   `;
 
-const Table = (props) => {
+// 繰り返してjsxを生成
+const Table = ({onClick, cells}) => { // propsを分割代入しimmutableのまま扱える
   return (
     <div>
       <TableBackground>
         <tbody>
-          <tr>
-            {/* Reactのイベント処理では、イベントが発生したとき、設定した関数を、「発生したイベントを引数にして」実行する */}
-            <TableCell onClick={() => props.onClick(0)}>{props.cells[0]}</TableCell>
-            <TableCell onClick={() => props.onClick(1)}>{props.cells[1]}</TableCell>
-            <TableCell onClick={() => props.onClick(2)}>{props.cells[2]}</TableCell>
-          </tr>
-          <tr>
-            <TableCell onClick={() => props.onClick(3)}>{props.cells[3]}</TableCell>
-            <TableCell onClick={() => props.onClick(4)}>{props.cells[4]}</TableCell>
-            <TableCell onClick={() => props.onClick(5)}>{props.cells[5]}</TableCell>
-          </tr>
-          <tr>
-            <TableCell onClick={() => props.onClick(6)}>{props.cells[6]}</TableCell>
-            <TableCell onClick={() => props.onClick(7)}>{props.cells[7]}</TableCell>
-            <TableCell onClick={() => props.onClick(8)}>{props.cells[8]}</TableCell>
-          </tr>
+          {
+            new Array(3).fill('').map((item, row) => {
+              return <tr>
+                {
+                  new Array(3).fill('').map((item, col) => {
+                    const index = row * 3 + col;
+                    return <TableCell onClick={() => onClick(index)}>{cells[index]}</TableCell>
+                })
+                }
+              </tr>
+            })
+          }
         </tbody>
       </TableBackground>
     </div>
