@@ -20,11 +20,12 @@ const Cross = styled.div`
     border-bottom: ${props => props.isCircle ? '0px' : '3px solid #000'};
   `;
 
-const Display = (props) => {
+// "props"と毎回書くのが面倒な場合、分割代入でpropsの中身を任意の名前の変数に入れてあげる
+const Display = ({isCircle}) => {
   return (
     <Turn>
-      <Circle isCircle={props.isCircle}>○</Circle>
-      <Cross isCircle={props.isCircle}>×</Cross>
+      <Circle isCircle={isCircle}>○</Circle>
+      <Cross isCircle={isCircle}>×</Cross>
     </Turn>
   );
 };
