@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StateMessage = (props) => {
-
-  const StateMessageText = styled.div`
+const StateMessageText = styled.div`
     text-align: center;
     padding: .5rem;
   `;
+
+const StateMessage = (props) => {
   return (
     <StateMessageText>
       {props.message}

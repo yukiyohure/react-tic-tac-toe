@@ -1,8 +1,8 @@
-import Title from './Title';
-import Display from './Display';
-import Table from './Table';
-import StateMessage from './StateMessage';
-import RestartButton from './RestartButton';
+import Title from './components/Title';
+import Display from './components/Display';
+import Table from './components/Table';
+import StateMessage from './components/StateMessage';
+import RestartButton from './components/RestartButton';
 import React from 'react';
 import styled from 'styled-components';
 import GlobalStyle from './GlobalStyle';
@@ -18,6 +18,23 @@ const Footer = styled.footer`
   padding: 1rem;
 `;
 
+const winnigPerttern = [
+  // row
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  // column
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  // diagonal
+  [0, 4, 8],
+  [2, 4, 6]
+];
+
+const circle = '○';
+const cross = '×';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -28,27 +45,7 @@ class App extends React.Component {
       turnCount: 0,
       isGameContinued: true,
     };
-    this.circle = '○';
-    this.cross = '×';
-    this.winnigPerttern = [
-      // row
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      // column
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      // diagonal
-      [0, 4, 8],
-      [2, 4, 6]
-    ];
     this.maxTurn = 8;
-    // thisをconstructorで束縛する。
-    // onClickで呼び出すときにarrow関数を使って束縛することもできるが、
-    // 子コンポーネントに渡す関数の場合、子コンポーネントも無駄に再描画されてしまう。
-    this.handleCellClick = this.handleCellClick.bind(this);
-    this.handleRestartButtonClick = this.handleRestartButtonClick.bind(this);
   };
 
   // リスタート処理
@@ -63,17 +60,17 @@ class App extends React.Component {
   }
 
   // arrow functionにすることでthisを固定
-  handleCellClick = (e) => {
-    const indexOfCell = e.currentTarget.dataset.cell;
+  handleCellClick = (indexOfCell) => {
     // セルの中身が空の場合 & ゲームが終了していない場合に処理を進める
     // つまり、 一度markが入ったセルはクリックできないようにする & ゲームが終わったらクリックできないようにする
-    if ( this.isEmptyString(this.state.cells[indexOfCell]) && this.state.isGameContinued ) {
-      this.insertMark(indexOfCell);
-      this.toggleTurn();
-      this.calculateWinner();
-      this.countTurn();
-      this.checkDraw();
-    };
+    if (this.state.cells[indexOfCell] || !this.state.isGameContinued) {
+      return;
+    }
+    this.insertMark(indexOfCell);
+    this.toggleTurn();
+    this.calculateWinner();
+    this.countTurn();
+    this.checkDraw(); // [issue] 最後の一手で勝者が出た場合も引き分け判定になってしまう。
   };
 
   checkDraw = () => {
@@ -102,7 +99,7 @@ class App extends React.Component {
   insertMark = (indexOfCell) => {
     // 配列のstateを変更するには、一度変更前のstateの配列をコピーし更新したものをstateに渡す。
     const cellsCopy = this.state.cells;
-    const sign = this.state.isCircleTurn ? this.circle : this.cross;
+    const sign = this.state.isCircleTurn ? circle : cross;
 
     cellsCopy[indexOfCell] = sign;
 
@@ -112,17 +109,12 @@ class App extends React.Component {
     });
   };
 
-  // 引数の文字列が空文字かの判定
-  isEmptyString = (string) => {
-    return typeof string === 'string' && string.length === 0;
-  }
-
   // 勝者を判定
   calculateWinner = () => {
     const cellsCopy = this.state.cells;
-    const player = this.state.isCircleTurn ? this.circle : this.cross;
+    const player = this.state.isCircleTurn ? circle : cross;
 
-    const hasWon = this.winnigPerttern.some((pattern) => {
+    const hasWon = winnigPerttern.some((pattern) => {
       const [first, second, third] = pattern;
       return cellsCopy[first] && cellsCopy[first] === cellsCopy[second] && cellsCopy[first] === cellsCopy[third];
     });
