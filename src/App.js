@@ -70,7 +70,7 @@ class App extends React.Component {
     this.toggleTurn();
     this.calculateWinner();
     this.countTurn();
-    this.checkDraw();
+    this.checkDraw(); // [issue] 最後の一手で勝者が出た場合も引き分け判定になってしまう。
   };
 
   checkDraw = () => {
