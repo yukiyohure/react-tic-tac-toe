@@ -1,7 +1,8 @@
 # Tic Tac Toe created by React.js
 ## このサイトについて
 私がVanilla JSで書いた[◯×ゲーム](https://github.com/yukiyohure/ws-0300-js-tic-tac-toe)と同じものをReact.jsで実装してみました。
-[リンク](https://yukiyohure.github.io/react-tic-tac-toe/)
+[リンク](https://yukiyohure.github.io/react-tic-tac-toe/)  
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/35441214/102362158-66da8100-3ff7-11eb-8d58-64918ff97b00.gif)
 
 ## 学んだこと
 - Reactでのstate管理の基礎
