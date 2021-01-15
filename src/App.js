@@ -45,7 +45,7 @@ class App extends React.Component {
       turnCount: 0,
       isGameContinued: true,
     };
-    this.maxTurn = 8;
+    this.maxTurn = 9;
   };
 
   // リスタート処理
@@ -74,17 +74,17 @@ class App extends React.Component {
   };
 
   checkDraw = () => {
-    if (this.state.turnCount === this.maxTurn) {
-      this.setState({
-        stateMessage: 'draw',
-      });
-    }
+    this.setState((state) => { // setStateの引数にコールバック関数を使用することでstateの変更を待ってくれるようになる 
+      if (state.turnCount === this.maxTurn) {
+        return {stateMessage: 'draw'};
+      }
+    })
   }
 
   // 経過ターン数をカウント(引き分けを判定するための材料になる)
   countTurn = () => {
-    this.setState({
-      turnCount: this.state.turnCount + 1 // [issue] 1手目で1にならずに0のまま。2手目から1になる。
+    this.setState((state) => { // setStateの引数にコールバック関数を使用することでstateの変更を待ってくれるようになる
+      return {turnCount: state.turnCount + 1}
     });
   };
 
