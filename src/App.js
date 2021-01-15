@@ -62,7 +62,7 @@ class App extends React.Component {
   // arrow functionにすることでthisを固定
   handleCellClick = (indexOfCell) => {
     // セルの中身が空の場合 & ゲームが終了していない場合に処理を進める
-    // つまり、 一度markが入ったセルはクリックできないようにする & ゲームが終わったらクリックできないようにする
+    // つまり、 一度markが入ったセルはクリックできないようにする or ゲームが終わったらクリックできないようにする
     if (this.state.cells[indexOfCell] || !this.state.isGameContinued) {
       return;
     }
@@ -74,8 +74,8 @@ class App extends React.Component {
   };
 
   checkDraw = () => {
-    this.setState((state) => { // setStateの引数にコールバック関数を使用することでstateの変更を待ってくれるようになる 
-      if (state.turnCount === this.maxTurn) {
+    this.setState((state) => { // setStateの引数にコールバック関数を使用することでstateの変更を待ってくれるようになる
+      if (state.turnCount === this.maxTurn && state.isGameContinued) { // 勝者チェックの後に引き分けチェックを行っている関係上、ここの条件分岐でisGameContinuedを判定してあげないと、最後の一手で勝者が決まった場合に'win!'っていうメッセージが一瞬で'draw'に上書きされてしまう。
         return {stateMessage: 'draw'};
       }
     })
