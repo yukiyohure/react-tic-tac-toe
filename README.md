@@ -13,4 +13,4 @@
   - setState()は非同期的にstateの更新を行うので、もしstateの更新直後に更新後の値としてstateを参照したいならsetState()の第二引数にコールバックを渡してあげるか、setStateの引数をコールバック関数にする([公式ドキュメント](https://ja.reactjs.org/docs/state-and-lifecycle.html#state-updates-may-be-asynchronous))。
 - styled-componentsの基礎
   - グローバルなスタイル(SMACSSでいうところのbaseみたいなスタイル)は`GlobalStyle.jsx`みたいなコンポーネントを作成してプロジェクトの最上位で使用してあげる。
-  - 基本的にclass cokmponentやfunctionl componentの外側で定義する。
+  - 基本的にclass componentやfunctionl componentの外側で定義する。
